@@ -1,5 +1,5 @@
 # pforge
-pforge: A Packet Forge Description Language that allows a user to describe a data format and is converted to machine language that can traverse a network.
+pforge: A Packet Forge Description Language that allows a user to describe a data format and is converted to various forms that can traverse a network.
 
 # Language semantics
 This is a descriptive language not a programming language that you can create more AI slop. It is of a `.pf` extension.
