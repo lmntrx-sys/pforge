@@ -4,7 +4,8 @@ pforge: A Packet Forge Description Language that allows a user to describe a dat
 # Language semantics
 This is a descriptive language not a programming language that you can create more AI slop. It is of a `.pf` extension.
 A .pf file looks like this:
-`// A minimal ARP request packet
+```
+// A minimal ARP request packet
 packet ArpRequest {
     u16be  hardware_type  = 0x0001;        // Ethernet
     u16be  protocol_type  = 0x0800;        // IPv4
@@ -15,7 +16,8 @@ packet ArpRequest {
     u32be  sender_ip      = 192.168.1.10;
     u8[6]  target_mac     = 00:00:00:00:00:00;
     u32be  target_ip      = 192.168.1.1;
-}`
+}
+```
 
 As you can see there are no for loops or if statements, this made purely for describing protocols like in wireshark.
 This is not an attempt at wireshark but a way building something for fun and profit of learning.
