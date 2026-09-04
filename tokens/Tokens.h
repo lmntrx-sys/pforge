@@ -8,18 +8,17 @@ typedef struct {
     TokenType type;
 
     union {
+        uint64_t hex_lit;
+        uint64_t dec_lit;
 
-        uint64_t TO_HEX_LIT;
-        uint64_t TO_DEC_LIT;
+        char* ident;
+        char* string_lit;
 
-        char* TOK_IDENT;
-        char* TOK_STRING_LIT;
-
-        uint8_t TOK_MAC_LIT[6];
-        uint32_t TOK_IP_LIT;
-
+        uint8_t mac_lit[6];
+        uint32_t ip_lit;
     } value;
 
     int line;
 } Token;
+
 #endif
