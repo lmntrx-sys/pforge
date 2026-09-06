@@ -21,4 +21,10 @@ typedef struct {
     int line;
 } Token;
 
+typedef struct {
+    int count;
+    int capacity;
+    uint8_t* code;
+} chunk;
+
 #endif

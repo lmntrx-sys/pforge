@@ -11,9 +11,15 @@ int retToken(Token tk) {
 }
 int main(void) {
     Token tk;
+    tk.line = 0;
     tk.type = TOK_HEX_LIT;
     tk.value.hex_lit = 0xDEADBEEF;
-    tk.line = 1;
+    tk.line += 1;
+    retToken(tk);
+
+    tk.type = TOK_DEC_LIT;
+    tk.value.dec_lit = 255;
+    tk.line += 1;
     retToken(tk);
     return 0;
 }
