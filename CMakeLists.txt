@@ -4,7 +4,12 @@ project(pforge C)
 set(CMAKE_C_STANDARD 17)
 
 add_executable(pforge pforge.c
-        tokens/Tokens.h
-        tokens/TokenType.h
-        tokens/Token.c
-        common.h)
+        TokenType.h
+        Token.c
+        chunk.c
+        lexer.c
+        lexer.h
+        chunk.h
+        Token.h
+        common.h
+        memory.h)
