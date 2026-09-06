@@ -1,5 +1,5 @@
-#include "../common.h"
-#include "Tokens.h"
+#include "common.h"
+#include "tokens/Tokens.h"
 #include <inttypes.h>
 
 

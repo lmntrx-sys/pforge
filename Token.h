@@ -1,7 +1,11 @@
-#ifndef TOKENS_H
-#define TOKENS_H
+//
+// Created by jerry on 9/7/26.
+//
 
-#include "../common.h"
+#ifndef PFORGE_TOKEN_H
+#define PFORGE_TOKEN_H
+
+#include "common.h"
 #include "TokenType.h"
 
 typedef struct {
@@ -25,6 +29,9 @@ typedef struct {
     int count;
     int capacity;
     uint8_t* code;
-} chunk;
+} Chunk;
 
-#endif
+
+
+
+#endif //PFORGE_TOKEN_H
