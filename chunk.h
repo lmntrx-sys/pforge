@@ -8,8 +8,8 @@
 #include "common.h"
 
 typedef struct {
-    int count;
-    int capacity;
+    size_t count;
+    size_t capacity;
     uint8_t* code;
 } Chunk;
 

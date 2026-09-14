@@ -6,7 +6,7 @@
 #define PFORGE_LEXER_H
 #include "Token.h"
 
-Token lexerNextToken(const char* source, int* pos, int* line);
+Token lexerNextToken(const char* source, int* line, int* pos);
 
 #endif //PFORGE_LEXER_H
 
