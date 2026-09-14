@@ -1,6 +1,7 @@
 #include "common.h"
 #include "Token.h"
 #include <inttypes.h>
+#include "lexer.h"
 
 
 int retToken(Token tk) {
@@ -9,17 +10,13 @@ int retToken(Token tk) {
     printf("0x%" PRIx64 "\n", pr_token);
     return 0;
 }
-int main(void) {
-    Token tk;
-    tk.line = 0;
-    tk.type = TOK_HEX_LIT;
-    tk.value.hex_lit = 0xDEADBEEF;
-    tk.line += 1;
-    retToken(tk);
 
-    tk.type = TOK_DEC_LIT;
-    tk.value.dec_lit = 255;
-    tk.line += 1;
-    retToken(tk);
-    return 0;
+int main(void) {
+    int line = 1, pos = 0;
+    Token t;
+    do {
+        const char* src = "packet Foo { }";
+        t = lexerNextToken(src, &line, &pos);
+        retToken(t);
+    } while (t.type != TOK_EOF);
 }
