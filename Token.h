@@ -20,6 +20,7 @@ typedef struct {
 
         uint8_t mac_lit[6];
         uint32_t ip_lit;
+        
     } value;
 
     int line;
