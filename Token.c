@@ -1,22 +1,31 @@
 #include "common.h"
 #include "Token.h"
 #include <inttypes.h>
+#include <stdlib.h>
+
 #include "lexer.h"
 
-
-int retToken(Token tk) {
-
-    uint64_t pr_token = tk.value.hex_lit;
-    printf("0x%" PRIx64 "\n", pr_token);
-    return 0;
+void token_free(Token* t) {
+    switch (t->type) {
+        case TOK_IDENT:
+        case TOK_STRING_LIT:
+        case TOK_ERROR:
+            free(t->value.string);
+            t->value.string = NULL;
+            break;
+        default:
+            break;
+    }
 }
 
-int main(void) {
-    int line = 1, pos = 0;
-    Token t;
-    do {
-        const char* src = "packet Foo { }";
-        t = lexerNextToken(src, &line, &pos);
-        retToken(t);
-    } while (t.type != TOK_EOF);
+void token_print(const Token* t) {
+    char type = t->type;
+    char* value = t->value;
+
+    printf("%c %c", type, *value);
+}
+
+int main () {
+    return 0;
+
 }
