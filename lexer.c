@@ -1,4 +1,7 @@
 #include "lexer.h"
+
+#include <ctype.h>
+
 #include "Token.h"
 
 Token lexerNextToken(const char* source, int* line, int* pos) {
@@ -16,6 +19,7 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
         tk.type = TOK_EOF;
         return tk;
     }
+
 
     const char c = source[*pos];
     (*pos)++;
@@ -47,11 +51,29 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
             tk.type = TOK_EQUALS;
             break;
 
+        case '/':
+            if (c == '/') {
+                while (c != '\n' && c != '\0') {
+                    (*pos)++;
+                }
+            }
+
         default:
             tk.line = *line;
             tk.type = TOK_ERROR;
             break;
     }
+
+    if (isalpha((unsigned char)c) || c == '_') {
+        int start = *pos - 1;
+
+        while (isalnum((unsigned char)source[*pos]) || source[*pos] == '_') {
+            (*pos)++;
+        }
+        int length = *pos - start;
+        
+    }
+
     return tk;
 }
 
