@@ -1,6 +1,5 @@
 #include "common.h"
 #include "Token.h"
-#include <inttypes.h>
 #include <stdlib.h>
 
 #include "lexer.h"
@@ -18,14 +17,10 @@ void token_free(Token* t) {
     }
 }
 
-void token_print(const Token* t) {
-    char type = t->type;
-    char* value = t->value;
+//void token_print(const Token* tok) {
+//  char type = tok->type;
+//  char value = &tok->value;
 
-    printf("%c %c", type, *value);
-}
+//  printf("%c %c", type, value);
+//}
 
-int main () {
-    return 0;
-
-}

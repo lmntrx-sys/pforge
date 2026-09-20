@@ -41,7 +41,7 @@ static void runFile(const char* path) {
 
     Token token = lexerNextToken(source, line, pos);
 
-    free(source);
+    //token_free(token);
 }
 
 static void repl() {
@@ -49,18 +49,20 @@ static void repl() {
     printf("repl not implemented yet");
 }
 
-int main(int argc, const char* argv[]) {
+int main() {
     // initVm()
 
-    if (argc == 1){ repl(); }
-    else if (argc == 2) {
-        runFile(argv[1]);
+    //if (argc == 1){ repl(); }
+    //else if (argc == 2) {
+        //runFile(argv[1]);
 
-    } else {
-        fprintf(stderr, "Usage path [pforge]");
-        exit(74);
-    }
+    //} else {
+    //    fprintf(stderr, "Usage path [pforge]");
+    //   exit(74);
+    //}
 
     // FreeVm
-    return 0;
+    //return 0;
+    const TokenType token =  matchKeyword("packet", 6);
+    return token;
 }
