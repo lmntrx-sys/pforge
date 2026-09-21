@@ -10,7 +10,7 @@
 
 Token lexerNextToken(const char* source, int* line, int* pos);
 
-inline TokenType matchKeyword(const char* word, int length);
+TokenType matchKeyword(const char* word, int length);
 
 #endif //PFORGE_LEXER_H
 
