@@ -3,7 +3,7 @@ project(pforge C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(pforge pforge.c
+add_executable(pforge main.c
         Token.c
         chunk.c
         lexer.c
