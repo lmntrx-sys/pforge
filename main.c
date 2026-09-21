@@ -62,6 +62,9 @@ int main() {
     //}
     // FreeVm
     //return 0;
-    const TokenType token =  matchKeyword("packet", 6);
-    return token;
+    const TokenType type = matchKeyword("packet", 1);
+    Token token;
+    token.type = type;
+    token_print(token.type);
+    return 0;
 }

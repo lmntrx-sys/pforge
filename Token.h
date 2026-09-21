@@ -74,10 +74,9 @@ typedef struct {
 // Call this on any token when you are done with it.
 // Frees value.string for TOK_IDENT, TOK_STRING_LIT, and TOK_ERROR.
 // Safe to call on any token type — does nothing for types with no heap data.
-void token_free(Token* t);
+void token_free(Token* tok);
 
 // Prints a human-readable description of the token.
-// You already have this working.
-void token_print(const Token* t);
+void token_print(TokenType type);
 
 #endif
