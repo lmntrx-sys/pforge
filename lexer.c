@@ -3,29 +3,14 @@
 #include "Token.h"
 
 inline TokenType matchKeyword(const char* word, const int length) {
+    if (length == 6 && strncmp(word, "packet", 6) == 0) return TOK_PACKET;
+    if (length == 2 && strncmp(word, "u8", 2) == 0)     return TOK_U8;
+    if (length == 5 && strncmp(word, "u16be", 5) == 0)  return TOK_U16BE;
+    if (length == 5 && strncmp(word, "u16le", 5) == 0)  return TOK_U16LE;
+    if (length == 5 && strncmp(word, "u32be", 5) == 0)  return TOK_U32BE;
+    if (length == 5 && strncmp(word, "u32le", 5) == 0)  return TOK_U32LE; // Fixed duplicate u32be
+    if (length == 6 && strncmp(word, "string", 6) == 0) return TOK_STR;
 
-
-    if (strncmp(word, "packet", length) == 0 && length == 6) {
-        return TOK_PACKET;
-    }
-    if (strncmp(word, "u8", length) == 0 && length == 2) {
-        return TOK_U8;
-    }
-    if (strncmp(word, "u16be", length) == 0 && length == 5) {
-        return TOK_U16BE;
-    }
-    if (strncmp(word, "u16le", length) == 0 && length == 5) {
-        return TOK_U16LE;
-    }
-    if (strncmp(word, "u32be", length) == 0 && length == 5) {
-        return TOK_U32BE;
-    }
-    if (strncmp(word, "u32be", length) == 0 && length == 5) {
-        return TOK_U32BE;
-    }
-    if (strncmp(word, "string", length) == 0 && length == 6) {
-        return TOK_STR;
-    }
     return TOK_ERROR;
 }
 
@@ -93,7 +78,7 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
                 while (source[*pos] != '\n' && source[*pos] != '\0'){
                     (*pos)++;
                 }
-                goto restart;
+            goto restart;
             } else {
                 tok.type = TOK_ERROR;
                 tok.line = *line;
