@@ -1,0 +1,8 @@
+// this is a comment
+packet ArpRequest {
+    u8     hw_addr_len   = 6;
+    u16be  protocol_type = 0x0800;
+    u32le  some_field    = 255;
+    u8[6]  sender_mac    = de:ad:be:ef:00:01;
+    u32be  sender_ip     = 192.168.1.1;
+}
