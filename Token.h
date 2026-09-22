@@ -77,6 +77,6 @@ typedef struct {
 void token_free(Token* tok);
 
 // Prints a human-readable description of the token.
-void token_print(TokenType type);
+void token_print(const Token* tok);
 
 #endif

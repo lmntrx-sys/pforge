@@ -17,8 +17,8 @@ void token_free(Token* tok) {
     }
 }
 
-void token_print(const TokenType type) {
-  switch (type) {
+void token_print(const Token* tok) {
+  switch (tok->type) {
       case TOK_LBRACE:
           printf("TOKEN '{' \n");
           break;
@@ -106,7 +106,7 @@ void token_print(const TokenType type) {
         case TOK_EOF:
             printf("TOKEN 'EOF' \n");
             break;
-            
+
       default:
           printf("TOKEN{UNKNOWN}");
           break;
