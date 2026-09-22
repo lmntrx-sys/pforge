@@ -11,7 +11,7 @@ inline TokenType matchKeyword(const char* word, const int length) {
     if (length == 5 && strncmp(word, "u32le", 5) == 0)  return TOK_U32LE; // Fixed duplicate u32be
     if (length == 6 && strncmp(word, "string", 6) == 0) return TOK_STR;
 
-    return TOK_ERROR;
+    return TOK_IDENT;
 }
 
 Token lexerNextToken(const char* source, int* line, int* pos) {
@@ -44,6 +44,11 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
 
         tok.type = matchKeyword(source+start, length);
 
+        if (tok.type == TOK_IDENT){
+            tok.value.string = strndup(source+start, length);
+        }
+        tok.line = *line;
+        return tok;
     }
 
     switch (c) {
