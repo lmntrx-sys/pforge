@@ -45,8 +45,8 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
 
         tok.type = matchKeyword(source+start, length);
 
-        if (tok.type == TOK_IDENT){
-            tok.value.string = strndup(source+start, length);
+        if (tok.type == TOK_IDENT || tok.type == TOK_PACKET){
+            tok.value.string = strndup(source+start, (size_t)length);
         }
         tok.line = *line;
         return tok;
