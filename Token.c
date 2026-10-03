@@ -9,6 +9,7 @@ void token_free(Token* tok) {
         case TOK_IDENT:
         case TOK_STRING_LIT:
         case TOK_ERROR:
+        case TOK_PACKET:
             free(tok->value.string);
             tok->value.string = NULL;
             break;
@@ -112,4 +113,5 @@ void token_print(const Token* tok) {
           break;
   }
 }
+
 
