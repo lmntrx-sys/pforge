@@ -1,6 +1,7 @@
 #include "lexer.h"
 #include <ctype.h>
 #include "Token.h"
+#include <stdio.h>
 
 inline TokenType matchKeyword(const char* word, const int length) {
     if (length == 6 && strncmp(word, "packet", 6) == 0) return TOK_PACKET;
@@ -16,7 +17,7 @@ inline TokenType matchKeyword(const char* word, const int length) {
 
 Token lexerNextToken(const char* source, int* line, int* pos) {
     Token tok;
-
+    // Skip whitespace and comments
     restart:
     while (source[*pos] != '\0') {
         const char c = source[*pos];
@@ -24,7 +25,7 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
         if (c == '\n') { (*pos)++; (*line)++; continue; }
         break;
     }
-
+    // Check for end of source
     if (source[*pos] == '\0') {
         tok.line= *line;
         tok.type = TOK_EOF;
@@ -83,6 +84,7 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
                 while (source[*pos] != '\n' && source[*pos] != '\0'){
                     (*pos)++;
                 }
+                printf("Skipping comment: %c\n", source[*pos]);
             goto restart;
             } else {
                 tok.type = TOK_ERROR;
@@ -97,8 +99,6 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
             tok.type = TOK_ERROR;
             break;
     }
-
-
 
     return tok;
 }

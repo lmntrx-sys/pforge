@@ -24,59 +24,59 @@ void token_print(const Token* tok) {
           break;
 
       case TOK_IDENT:
-          printf("TOKEN 'IDENT' \n");
+          printf("TOKEN 'IDENT' %s\n", tok->value.string);
           break;
 
         case TOK_STRING_LIT:
-          printf("TOKEN 'STRING_LIT' \n");
+          printf("TOKEN 'STRING_LIT' %s\n", tok->value.string);
           break;
 
         case TOK_DEC_LIT:
-          printf("TOKEN 'DEC_LIT' \n");
+          printf("TOKEN 'DEC_LIT' %lu\n", tok->value.number);
           break;
 
         case TOK_HEX_LIT:
-            printf("TOKEN 'HEX_LIT' \n");
+            printf("TOKEN 'HEX_LIT' %lu\n", tok->value.number);
             break;
 
         case TOK_MAC_LIT:
-            printf("TOKEN 'MAC_LIT' \n");
+            printf("TOKEN 'MAC_LIT' %s\n", tok->value.string);
             break;
 
         case TOK_IP_LIT:
-            printf("TOKEN 'IP_LIT' \n");
+            printf("TOKEN 'IP_LIT' %s\n", tok->value.string);
             break;
         
         case TOK_U8:
-            printf("TOKEN 'U8' \n");
+            printf("TOKEN 'U8' %lu\n", tok->value.number);
             break;
 
         case TOK_U16BE:
-            printf("TOKEN 'U16BE' \n");
+            printf("TOKEN 'U16BE' %lx\n", tok->value.number);
             break;
 
         case TOK_U16LE:
-            printf("TOKEN 'U16LE' \n");
+            printf("TOKEN 'U16LE' %lx\n", tok->value.number);
             break;
 
         case TOK_U32BE:
-            printf("TOKEN 'U32BE' \n");
+            printf("TOKEN 'U32BE' %lx\n", tok->value.number);
             break;
 
         case TOK_U32LE:
-            printf("TOKEN 'U32LE' \n");
+            printf("TOKEN 'U32LE' %lx\n", tok->value.number);
             break;
 
         case TOK_STR:
-            printf("TOKEN 'STR' \n");
+            printf("TOKEN 'STR' %s\n", tok->value.string);
             break;
 
         case TOK_COMPUTED:
-            printf("TOKEN 'COMPUTED' \n");
+            printf("TOKEN 'COMPUTED' %lu\n", tok->value.number);
             break;
 
         case TOK_PACKET:
-            printf("TOKEN 'PACKET' \n");
+            printf("TOKEN 'PACKET' %s\n", tok->value.string);
             break;
         
         case TOK_RBRACE:

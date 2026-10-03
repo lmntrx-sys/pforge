@@ -22,7 +22,7 @@ static char* readFile(const char* path) {
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
 
     if (bytesRead < fileSize) {
-        fprintf(stderr, "Could not read file \"%%\".\n");
+        fprintf(stderr, "Could not read file \"%s\".\n", path);
         exit(74);
     }
     buffer[bytesRead] = '\0';
@@ -34,7 +34,7 @@ static char* readFile(const char* path) {
 
 
 int main() {
-    char* source = readFile("test.pf");
+    char* source = readFile("/test.pf");
     if (source == NULL) return 1;
 
     int line = 1;
