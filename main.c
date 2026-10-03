@@ -34,7 +34,7 @@ static char* readFile(const char* path) {
 
 
 int main() {
-    char* source = readFile("/test.pf");
+    char* source = readFile("test.pf");
     if (source == NULL) return 1;
 
     int line = 1;
@@ -44,11 +44,11 @@ int main() {
     // lex every token until EOF
     do
     {
-        lexerNextToken(source, &line, &pos);
+        tok = lexerNextToken(source, &line, &pos);
         token_print(&tok);
         token_free(&tok);
 
-    } while (tok.type != TOK_EOF && tok.type == TOK_ERROR);
+    } while (tok.type != TOK_EOF && tok.type != TOK_ERROR);
     
     free(source);
     return 0;
