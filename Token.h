@@ -33,6 +33,8 @@ typedef enum {
     TOK_RBRACKET,      // ]
     TOK_EQUALS,        // =
     TOK_SEMICOLON,     // ;
+    TOK_DOT,          // :
+    TOK_COLON,          // :
 
     // Control
     TOK_ERROR,         // unrecognised character → value.string holds message
@@ -60,7 +62,6 @@ typedef struct {
         // Used by: TOK_IP_LIT
         // Four octets packed big-endian into one uint32_t.
         // 192.168.1.1 → 0xC0A80101
-        // This matches what encode_u32be() will expect later.
         uint32_t ip;
 
     } value;

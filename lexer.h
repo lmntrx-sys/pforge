@@ -12,6 +12,8 @@ Token lexerNextToken(const char* source, int* line, int* pos);
 
 TokenType matchKeyword(const char* word, int length);
 
+Token LexMAC(const char* source, int* pos, int* line, Token tok);
+
 #endif //PFORGE_LEXER_H
 
 
