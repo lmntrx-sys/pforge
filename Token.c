@@ -8,6 +8,8 @@ void token_free(Token* tok) {
     switch (tok->type) {
         case TOK_IDENT:
         case TOK_STRING_LIT:
+        case TOK_MAC_LIT:
+        case TOK_IP_LIT:
         case TOK_ERROR:
         case TOK_PACKET:
             free(tok->value.string);
@@ -113,5 +115,4 @@ void token_print(const Token* tok) {
           break;
   }
 }
-
 

@@ -11,8 +11,8 @@ typedef enum {
     TOK_DEC_LIT,       // 255     → value.number
     TOK_STRING_LIT,    // "hello" → value.string  (heap allocated, must free)
     TOK_IDENT,         // foo     → value.string  (heap allocated, must free)
-    TOK_MAC_LIT,       // de:ad:be:ef:00:01 → value.mac
-    TOK_IP_LIT,        // 192.168.1.1       → value.ip
+    TOK_MAC_LIT,       // de:ad:be:ef:00:01 → value.string
+    TOK_IP_LIT,        // 192.168.1.1       → value.string
 
     // Type keywords — no data needed beyond the type field itself
     TOK_U8,
@@ -51,17 +51,13 @@ typedef struct {
         // a plain number.
         uint64_t number;
 
-        // Used by: TOK_IDENT, TOK_STRING_LIT, TOK_ERROR
+        // Used by: TOK_IDENT, TOK_STRING_LIT, TOK_MAC_LIT, TOK_IP_LIT,
+        // TOK_ERROR, TOK_PACKET
         // Heap-allocated copy made by the lexer via strndup().
         char* string;
 
-        // Used by: TOK_MAC_LIT
-        // Six bytes stored directly — no heap allocation needed.
+        // Reserved for parsed MAC/IP values; the lexer currently stores text.
         uint8_t mac[6];
-
-        // Used by: TOK_IP_LIT
-        // Four octets packed big-endian into one uint32_t.
-        // 192.168.1.1 → 0xC0A80101
         uint32_t ip;
 
     } value;
@@ -73,7 +69,7 @@ typedef struct {
 } Token;
 
 // Call this on any token when you are done with it.
-// Frees value.string for TOK_IDENT, TOK_STRING_LIT, and TOK_ERROR.
+// Frees heap-backed string values for tokens that own them.
 // Safe to call on any token type — does nothing for types with no heap data.
 void token_free(Token* tok);
 

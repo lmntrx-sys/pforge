@@ -20,6 +20,7 @@ Token LexMAC(const char* source, int* pos, int* line, Token tok){
     
     int start = *pos - 1;
     int length = 0;
+    tok.value.string = NULL;
 
     while (isxdigit((unsigned char)source[*pos]) || source[*pos] == ':') {
         (*pos)++;
@@ -31,8 +32,7 @@ Token LexMAC(const char* source, int* pos, int* line, Token tok){
         tok.value.string = strndup(source + start, (size_t)length);
         if (tok.value.string == NULL) {
             tok.type = TOK_ERROR;
-            tok.value.string = strndup("Memory allocation failed for MAC address", 41);
-            free(tok.value.string);
+            tok.line = *line;
             return tok;
         }
         tok.line = *line;
@@ -48,19 +48,19 @@ Token LexMAC(const char* source, int* pos, int* line, Token tok){
 Token LexIP(const char* source, int* pos, int* line, Token tok) {
     int start = *pos - 1;
     int length = 0;
+    tok.value.string = NULL;
 
     while (isdigit((unsigned char)source[*pos]) || source[*pos] == '.') {
         (*pos)++;
         length++;
     }
 
-    if (length > 0 && length < 16) { // Basic validation for IP address format
+    if (length > 0 && length < 12) { // Basic validation for IP address format
         tok.type = TOK_IP_LIT;
         tok.value.string = strndup(source + start, (size_t)length);
         if (tok.value.string == NULL) {
             tok.type = TOK_ERROR;
-            tok.value.string = strndup("Memory allocation failed for IP address", 40);
-            free(tok.value.string);
+            tok.line = *line;
             return tok;
         }
         tok.line = *line;
@@ -101,6 +101,10 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
 
     if (isxdigit((unsigned char)c) && isxdigit((unsigned char)source[*pos]) && source[*pos + 1] == ':') {
         return LexMAC(source, pos, line, tok);
+    }
+
+    if (isdigit((unsigned char)c) && isdigit((unsigned char)source[*pos]) && source[*pos + 1] == '.') {
+        return LexIP(source, pos, line, tok);
     }
     
 
@@ -183,5 +187,4 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
 
     return tok;
 }
-
 
