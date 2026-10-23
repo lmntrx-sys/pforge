@@ -1,8 +1,11 @@
-// this is a comment
 packet ArpRequest {
-    u8     hw_addr_len   = 6;
-    u16be  protocol_type = 0x0800;
-    u32le  some_field    = 255;
-    u8[6]  sender_mac    = de:ad:be:ef:00:01;
-    u32be  sender_ip     = 192.168.1.1;
+    u16be  hardware_type  = 0x0001;        // Ethernet
+    u16be  protocol_type  = 0x0800;        // IPv4
+    u8     hw_addr_len    = 6;
+    u8     proto_addr_len = 4;
+    u16be  operation      = 0xf;        // Request
+    u8[6]  sender_mac     = DE:AD:BE:EF:00:01;
+    u32be  sender_ip      = 192.168.1.10;
+    u8[6]  target_mac     = 00:00:00:00:00:00;
+    u32be  target_ip      = 192.168.1.1;
 }
