@@ -1,5 +1,6 @@
 #include "lexer.h"
 #include <ctype.h>
+#include <stdbool.h>
 #include "Token.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +20,7 @@ inline TokenType matchKeyword(const char* word, const int length) {
 Token LexMAC(const char* source, int* pos, int* line, Token tok){
     
     int start = *pos - 1;
-    int length = 0;
+    int length = 1;
     tok.value.string = NULL;
 
     while (isxdigit((unsigned char)source[*pos]) || source[*pos] == ':') {
@@ -27,7 +28,7 @@ Token LexMAC(const char* source, int* pos, int* line, Token tok){
         length++;
     }
 
-    if (length == 16) { // MAC address format: XX:XX:XX:XX:XX:XX
+    if (length == 17) { // MAC address format: XX:XX:XX:XX:XX:XX
         tok.type = TOK_MAC_LIT;
         tok.value.string = strndup(source + start, (size_t)length);
         if (tok.value.string == NULL) {
@@ -47,7 +48,7 @@ Token LexMAC(const char* source, int* pos, int* line, Token tok){
 
 Token LexIP(const char* source, int* pos, int* line, Token tok) {
     int start = *pos - 1;
-    int length = 0;
+    int length = 1;
     tok.value.string = NULL;
 
     while (isdigit((unsigned char)source[*pos]) || source[*pos] == '.') {
@@ -55,7 +56,31 @@ Token LexIP(const char* source, int* pos, int* line, Token tok) {
         length++;
     }
 
-    if (length > 0 && length < 12) { // Basic validation for IP address format
+    int octets = 0;
+    int octetLength = 0;
+    unsigned int octetValue = 0;
+    bool valid = true;
+    for (int i = start; i < start + length; i++) {
+        if (source[i] == '.') {
+            if (octetLength == 0 || octetLength > 3 || octetValue > 255 || octets == 3) {
+                valid = false;
+                break;
+            }
+            octets++;
+            octetLength = 0;
+            octetValue = 0;
+        } else {
+            octetLength++;
+            octetValue = octetValue * 10 + (unsigned int)(source[i] - '0');
+            if (octetLength > 3 || octetValue > 255) {
+                valid = false;
+                break;
+            }
+        }
+    }
+    valid = valid && octets == 3 && octetLength > 0;
+
+    if (valid) {
         tok.type = TOK_IP_LIT;
         tok.value.string = strndup(source + start, (size_t)length);
         if (tok.value.string == NULL) {
@@ -99,21 +124,34 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
         return tok;
     }
 
-    if (isxdigit((unsigned char)c) && isxdigit((unsigned char)source[*pos]) && source[*pos + 1] == ':') {
+    if (isxdigit((unsigned char)c) && isxdigit((unsigned char)source[*pos]) && source[*pos+1] == ':') {
         return LexMAC(source, pos, line, tok);
-    }
-
-    if (isdigit((unsigned char)c) && isdigit((unsigned char)source[*pos]) && source[*pos + 1] == '.') {
-        return LexIP(source, pos, line, tok);
     }
     
 
     if (isdigit((unsigned char)c)){
+        int lookahead = *pos - 1;
+        bool hasDot = false;
+        while (isdigit((unsigned char)source[lookahead]) || source[lookahead] == '.') {
+            if (source[lookahead] == '.') hasDot = true;
+            lookahead++;
+        }
+        if (hasDot) {
+            return LexIP(source, pos, line, tok);
+        }
+
+        const int start = *pos - 1;
+        const bool isHex = source[start] == '0' && (source[start+1] == 'x' || source[start+1] == 'X');
+        if (isHex && !isxdigit((unsigned char)source[start + 2])) {
+            tok.line = *line;
+            tok.type = TOK_ERROR;
+            return tok;
+        }
         char *endptr;
         // back up one since the curr is already consumed
-        tok.value.number = strtoull(source + *pos - 1, &endptr, 0);
+        tok.value.number = strtoull(source + start, &endptr, 0);
         *pos = endptr - source; // advance pos to wherever stroull stopped
-        tok.type = (source[*pos-1] == 'x' || source[*pos-1] == 'X') ? TOK_HEX_LIT : TOK_DEC_LIT;
+        tok.type = isHex ? TOK_HEX_LIT : TOK_DEC_LIT;
         tok.line = *line;
         return tok;
     }
@@ -168,8 +206,7 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
             if (source[*pos] == '/') {
                 while (source[*pos] != '\n' && source[*pos] != '\0'){
                     (*pos)++;
-                }
-                printf("Skipping comment: %c\n", source[*pos]);
+                };
             goto restart;
             } else {
                 tok.type = TOK_ERROR;
@@ -187,4 +224,3 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
 
     return tok;
 }
-
