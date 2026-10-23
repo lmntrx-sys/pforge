@@ -51,23 +51,23 @@ void token_print(const Token* tok) {
             break;
         
         case TOK_U8:
-            printf("TOKEN 'U8' %lu\n", tok->value.number);
+            printf("TOKEN 'U8' \n");
             break;
 
         case TOK_U16BE:
-            printf("TOKEN 'U16BE' %lx\n", tok->value.number);
+            printf("TOKEN 'U16BE' \n");
             break;
 
         case TOK_U16LE:
-            printf("TOKEN 'U16LE' %lx\n", tok->value.number);
+            printf("TOKEN 'U16LE' \n");
             break;
 
         case TOK_U32BE:
-            printf("TOKEN 'U32BE' %lx\n", tok->value.number);
+            printf("TOKEN 'U32BE' \n");
             break;
 
         case TOK_U32LE:
-            printf("TOKEN 'U32LE' %lx\n", tok->value.number);
+            printf("TOKEN 'U32LE' \n");
             break;
 
         case TOK_STR:
@@ -75,7 +75,7 @@ void token_print(const Token* tok) {
             break;
 
         case TOK_COMPUTED:
-            printf("TOKEN 'COMPUTED' %lu\n", tok->value.number);
+            printf("TOKEN 'COMPUTED' %s\n", tok->value.string);
             break;
 
         case TOK_PACKET:
