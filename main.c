@@ -4,23 +4,28 @@
 #include "Token.h"
 
 static char* readFile(const char* path) {
+    //  Open the file in binary mode
     FILE* file = fopen(path, "rb");
     if (file == NULL) {
         fprintf(stderr, "Could not read file at \"%s\".\n", path);
         exit(64);
     }
 
+    //  Seek to the end of the file to determine its size
     fseek(file, 0L, SEEK_END);
     long unsigned fileSize = ftell(file);
     rewind(file);
 
+    // Allocate memory for the file content plus a null terminator
     char* buffer = (char*)malloc(fileSize+1);
     if (buffer == NULL) {
         fprintf(stderr, "Not enough memory in \"%s\".\n", path);
         exit(74);
     }
+    // Read the file into the buffer
     size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
 
+    //  Check if the entire file was read successfully
     if (bytesRead < fileSize) {
         fprintf(stderr, "Could not read file \"%s\".\n", path);
         exit(74);
