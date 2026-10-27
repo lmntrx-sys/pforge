@@ -55,11 +55,14 @@ Token LexIP(const char* source, int* pos, int* line, Token tok) {
         (*pos)++;
         length++;
     }
-
+    
+    // Validate the IP address format (basic validation)
     int octets = 0;
     int octetLength = 0;
     unsigned int octetValue = 0;
     bool valid = true;
+
+    // Check each character in the IP address substring
     for (int i = start; i < start + length; i++) {
         if (source[i] == '.') {
             if (octetLength == 0 || octetLength > 3 || octetValue > 255 || octets == 3) {
@@ -71,7 +74,7 @@ Token LexIP(const char* source, int* pos, int* line, Token tok) {
             octetValue = 0;
         } else {
             octetLength++;
-            octetValue = octetValue * 10 + (unsigned int)(source[i] - '0');
+            octetValue = octetValue * 10 + (unsigned int)(source[i] - '0'); // Convert char to int
             if (octetLength > 3 || octetValue > 255) {
                 valid = false;
                 break;
@@ -124,14 +127,17 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
         return tok;
     }
 
+    // Check for MAC address pattern 
     if (isxdigit((unsigned char)c) && isxdigit((unsigned char)source[*pos]) && source[*pos+1] == ':') {
         return LexMAC(source, pos, line, tok);
     }
     
-
+    // Handle numeric literals (hexadecimal and decimal)
     if (isdigit((unsigned char)c)){
         int lookahead = *pos - 1;
         bool hasDot = false;
+
+        // Check if the number contains a dot, which indicates it might be an IP address
         while (isdigit((unsigned char)source[lookahead]) || source[lookahead] == '.') {
             if (source[lookahead] == '.') hasDot = true;
             lookahead++;
@@ -156,6 +162,7 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
         return tok;
     }
 
+    // Handle identifiers and keywords
     if (isalpha((unsigned char)c) || c == '_') {
         int start = *pos - 1;
 
@@ -172,9 +179,9 @@ Token lexerNextToken(const char* source, int* line, int* pos) {
         tok.line = *line;
         return tok;
     }
-    
 
 
+    // Handle punctuation and operators
     switch (c) {
         case '}':
             tok.line = *line;
