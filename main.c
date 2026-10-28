@@ -34,9 +34,7 @@ static char* readFile(const char* path) {
 
     fclose(file);
     return buffer;
-
 }
-
 
 int main() {
     char* source = readFile("test.pf");

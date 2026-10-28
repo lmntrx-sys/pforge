@@ -68,9 +68,23 @@ typedef struct {
 
 } Token;
 
-// Call this on any token when you are done with it.
-// Frees heap-backed string values for tokens that own them.
-// Safe to call on any token type — does nothing for types with no heap data.
+typedef enum {
+    VALUE_NONE,
+    VALUE_NUMBER,
+    VALUE_STRING,
+    VALUE_MAC,
+    VALUE_IP,
+} TokenValueType;
+
+typedef enum {
+    TYPE_U8,
+    TYPE_U16BE,
+    TYPE_U16LE,
+    TYPE_U32BE,
+    TYPE_U32LE
+} TokenFieldType;
+
+
 void token_free(Token* tok);
 
 // Prints a human-readable description of the token.
