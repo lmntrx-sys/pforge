@@ -84,6 +84,26 @@ typedef enum {
     TYPE_U32LE
 } TokenFieldType;
 
+// A field definition within a packet.
+typedef struct {
+    TokenFieldType type;
+    char name[64];
+    int array_size; // 0 if not an array (e.g., u8[6] -> 6)
+    
+    TokenValueType val_type;
+    union {
+        uint64_t int_val;
+        uint8_t mac_val[6];
+        uint8_t ip_val[4];
+    } value;
+} FieldDef;
+
+// A packet definition, which contains multiple fields.
+typedef struct {
+    char packet_name[64];
+    FieldDef fields[64];
+    int field_count;
+} PacketDef;
 
 void token_free(Token* tok);
 
