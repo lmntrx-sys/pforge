@@ -12,4 +12,6 @@ add_executable(pforge main.c
         Token.h
         common.h
         memory.h
-        memory.c)
+        memory.c
+        parser.h
+        parser.c)
