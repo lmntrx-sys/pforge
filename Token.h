@@ -33,8 +33,6 @@ typedef enum {
     TOK_RBRACKET,      // ]
     TOK_EQUALS,        // =
     TOK_SEMICOLON,     // ;
-    TOK_DOT,          // :
-    TOK_COLON,          // :
 
     // Control
     TOK_ERROR,         // unrecognised character → value.string holds message
