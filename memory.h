@@ -2,17 +2,14 @@
 #define PFORGE_MEMORY_H
 
 #include "common.h"
+/* Use an arena to allocate memory */
 
-#define GROW_CAPACITY(capacity) \
-    ((capacity) < 8 ? 8 : (capacity) * 2)
+typedef struct {
+    unsigned char* buffer;  /* large memory chunk */
+    size_t offset;          /* current offset in chunk */
+    size_t capacity;        /* size of chunk */
+} Arena;
 
-#define GROW_ARRAY(type, pointer, oldCount, newCount) \
-    (type*)reallocate(pointer, sizeof(type) * (oldCount), \
-        sizeof(type) * (newCount))
-
-#define FREE_ARRAY(type, pointer, oldCount) \
-    reallocate(pointer, sizeof(type) * (oldCount), 0)
-
-
-void* reallocate(void *pointer, size_t oldSize, size_t newSize);
+int* arena_init(Arena* arena, size_t initial_capacity);
+int* arena_alloc(Arena* arena, size_t size);
 #endif //PFORGE_MEMORY_H
