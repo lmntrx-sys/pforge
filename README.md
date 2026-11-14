@@ -68,3 +68,49 @@ typedef struct __attribute__((packed)) {
 
 I have tried to to keep the grammar as small as possible inorder to also maintain readability.
 This is a toy project nothing big intended from this code.
+
+The language parsing is modeled by EBNF using a recursive descent parser that enforces language semantics.
+once the parser is done our parser gives charge to the emitters that do disassembly of the packet described
+by the user.
+
+```tokens  ->  parser  ->  AST  ->  checks  ->  layout  ->  emitters```
+
+The ebnf modelling of pforge's grammar looks something like this. 
+
+```
+(* --- Top-Level Structure --- *)
+program         ::= packet_definition*
+
+packet_definition ::= 'packet' IDENTIFIER '{' field_definition* '}'
+
+(* --- Field Rules --- *)
+field_definition  ::= type_spec IDENTIFIER ('=' value)? ';'
+
+type_spec         ::= base_type ('[' integer_literal ']')?
+base_type         ::= IDENTIFIER  (* e.g., u8, u16be, u32be, u16le *)
+
+(* --- Value Literals --- * )
+value             ::= hex_literal
+                    | mac_literal
+                    | ip_literal
+                    | integer_literal
+                    | IDENTIFIER
+
+(* --- Lexical Tokens & Terminals --- *)
+IDENTIFIER        ::= [a-zA-Z_][a-zA-Z0-9_]*
+integer_literal   ::= [0-9]+
+hex_literal       ::= '0x' [0-9a-fA-F]+
+mac_literal       ::= hex_byte (':' hex_byte){5}
+hex_byte          ::= [0-9a-fA-F]{2}
+ip_literal        ::= [0-9]{1,3} '.' [0-9]{1,3} '.' [0-9]{1,3} '.' [0-9]{1,3}
+
+(* --- Comments (Ignored by Parser) --- *)
+comment           ::= '//' [^\n]*
+```
+
+NOTE: This representation covers most part of the grammaar and semantic rules of the 
+language but there are still a few gaps that need to be closed, and a few decisions to 
+be made on who will handle what parts ogf the grammar e.g 
+```ip_literal        ::= [0-9]{1,3} '.' [0-9]{1,3} '.' [0-9]{1,3} '.' [0-9]{1,3}```
+This allows an IP address to look like ```999.999.99.999``` which does not make any sense.
+Please IF YOU SPOT A WEAKNESS IN THE CODE AND INT THE IMPLEMENTATION OF THE RULES, I'LL BE HAPPY TO CORRECT.
