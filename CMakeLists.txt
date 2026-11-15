@@ -5,10 +5,10 @@ set(CMAKE_C_STANDARD 17)
 
 add_executable(pforge main.c
         Token.c
-        chunk.c
+        ref_table.c
         lexer.c
         lexer.h
-        chunk.h
+        ref_table.h
         Token.h
         common.h
         memory.h
