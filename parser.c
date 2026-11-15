@@ -5,8 +5,11 @@
 #include <stdlib.h>
 
 // current token
-static Token peek(const struct Parser parser) {
-    return parser.token[parser.curr_ind];
+static Token *peek(const Parser *parser) {
+    if (parser->curr_ind >= parser->token_count) {
+        return &parser->token[parser->curr_ind-1];
+    }
+    return &parser->token[parser->curr_ind];
 }
 
 // TOK_EOF found
