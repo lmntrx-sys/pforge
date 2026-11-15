@@ -13,25 +13,25 @@ static Token *peek(const Parser *parser) {
 }
 
 // TOK_EOF found
-static bool is_at_end(struct Parser parser) {
-    return parser.token->type == TOK_EOF;
+static bool is_at_end(const Parser *parser) {
+    return parser->token->type == TOK_EOF;
 }
 
 // produce next token
-static Token advance(struct Parser parser) {
+static Token advance(Parser *parser) {
     if (!is_at_end(parser)) {
-        ++parser.curr_ind;
+        ++parser->curr_ind;
     }
-    return parser.token[parser.curr_ind-1];
+    return parser->token[parser->curr_ind-1];
 }
 
 // lexical rules
-static Token expect(struct Parser parser, TokenType expected_token) {
-    const Token token = peek(parser);
-    if (token.type == expected_token) {
+static Token expect(Parser *parser, const TokenType expected_token) {
+    const Token *token = peek(parser);
+    if (token->type == expected_token) {
         return advance(parser);
     }
-    int line = token.line;
+    int line = token->line;
     fprintf(stderr, "Wrong token %d", line);
     exit(1);
 }
