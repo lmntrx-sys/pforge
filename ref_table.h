@@ -1,6 +1,3 @@
-//
-// Created by jerry on 9/7/26.
-//
 
 #ifndef PFORGE_CHUNK_H
 #define PFORGE_CHUNK_H
