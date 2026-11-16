@@ -19,8 +19,8 @@ typedef struct {
     unsigned int byte_size;
     Endianness endian;
     const char* ctype;
-    const char* field_name;
 } Type_ref_entry;
 
-
+extern Type_ref_entry type_table[];
+extern const int TYPE_TABLE_SIZE;
 #endif //PFORGE_CHUNK_H
