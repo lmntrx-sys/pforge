@@ -25,6 +25,13 @@ static Token advance(Parser *parser) {
     return parser->token[parser->curr_ind-1];
 }
 
+static void parser_error(const Token *token, const char *message) {
+    fprintf(stderr, "\033[1;31merror:\033[0m%s\n", message);
+    fprintf(stderr, "-->at line %d, column %d\n",
+            token->line, token->column);
+    exit(EXIT_FAILURE);
+}
+
 // lexical rules
 static Token expect(Parser *parser, const TokenType expected_token) {
     const Token *token = peek(parser);
