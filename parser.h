@@ -1,12 +1,14 @@
 #ifndef PFORGE_PARSER_H
 #define PFORGE_PARSER_H
+#include <stdlib.h>
+
 #include "Token.h"
 
-struct  Parser {
-    Token* token;
-    int curr_ind;
-    int token_count;
-};
+typedef struct  {
+    Token* token;       /* token from lexer */
+    int curr_ind;       /* current index of the stream */
+    int token_count;    /* number of tokens */
+} Parser;
 
 
 #endif //PFORGE_PARSER_H
