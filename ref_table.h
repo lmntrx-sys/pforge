@@ -15,6 +15,7 @@ typedef enum {
 } Endianness;
 
 typedef struct {
+    TokenType type_name;
     unsigned int byte_size;
     Endianness endian;
     const char* ctype;
