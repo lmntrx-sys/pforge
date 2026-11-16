@@ -4,6 +4,7 @@
 
 #ifndef PFORGE_CHUNK_H
 #define PFORGE_CHUNK_H
+#include "Token.h"
 
 #include "common.h"
 
