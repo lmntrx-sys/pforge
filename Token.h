@@ -63,6 +63,7 @@ typedef struct {
     // Source line where this token appeared.
     // Used for error messages: "Error on line 7: expected ';'"
     int line;
+    int column;
 
 } Token;
 
